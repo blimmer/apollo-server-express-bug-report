@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 
 const typeDefs = gql`
   type Query {
-    hello: String
+    hello: String @cacheControl(maxAge: 900)
   }
 `;
 
@@ -24,7 +24,7 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  // cacheControl: true // comment this out and you'll get the Cache-Control headers
+  cacheControl: true // when this option is set, you'll see the bug - no Cache-Control headers are set
 });
 
 server.applyMiddleware({
